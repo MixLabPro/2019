@@ -1,7 +1,7 @@
 ---
 title: {{ title }}
 date: {{ date }}
-categories: AI
+categories: "AI"
 tags:
   - ML
 comments: true
