@@ -8,7 +8,7 @@ comments: true
 date: 2019-05-23 18:27:13
 ---
 
-## 安装 Python
+**安装 Python**
 
 ![Anaconda](https://docs.anaconda.com/_images/navigator-home-1-6.png)
 
