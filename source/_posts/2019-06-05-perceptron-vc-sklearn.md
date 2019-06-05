@@ -1,6 +1,6 @@
 ---
 title: "《统计学习方法》第 2 章 感知机 与 sklearn 对比"
-categories: AI
+categories: 统计学习方法
 tags:
   - ML
 comments: true

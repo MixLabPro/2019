@@ -1,6 +1,6 @@
 ---
 title: '《统计学习方法》slmethod GitHub 模板'
-categories: AI
+categories: 统计学习方法
 tags:
   - ML
 comments: true
