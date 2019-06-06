@@ -114,24 +114,6 @@ $$
 
 1. 转至 2 直到没有误分类数据。
 
-```python
-    # 对偶
-    def _fit_dual(self):
-        n_samples, n_features = self.X.shape
-        self.w = np.zeros(n_features)
-        self.b = 0.0
-
-        i = 0
-        while i < n_samples:
-            if self.y[i] * self.sign(self.w, self.X[i], self.b) <= 0:
-                self.w += self.l_rate * np.dot(self.y[i], self.X[i])
-                self.b += self.l_rate * self.y[i]
-                self._wbs.append((i, self.w, self.b))
-                i = 0
-            else:
-                i += 1
-```
-
 对偶形式中训练实例仅以内积的形式出现。为了方便，可以预先将训练集中实例间的内积计算出来并以矩阵的形式存储，这个矩阵就是所谓的 Gram 矩阵（Gram matrix）。
 
 ## 测试
@@ -323,6 +305,23 @@ print(origin_clf.w)
 print(origin_clf.b)
 
 origin_clf.show2d('slmethod_perceprton.gif')
+```
+
+### 生成聚类
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.model_selection import train_test_split
+
+X, y = make_blobs(n_samples=1000, centers=2, cluster_std=[0.5, 0.5])
+fig = plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=y)
+plt.title("Dataset")
+plt.xlabel("First feature")
+plt.ylabel("Second feature")
+plt.show()
 ```
 
 代码：[https://gist.github.com/jiaxianhua/3442e76aefff8202a6e33532e74d0ae5](https://gist.github.com/jiaxianhua/3442e76aefff8202a6e33532e74d0ae5)
