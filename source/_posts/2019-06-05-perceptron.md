@@ -114,6 +114,33 @@ $$
 
 1. 转至 2 直到没有误分类数据。
 
+```python
+    # 对偶形式
+    def _fit_dual(self):
+        """
+        对偶形式中训练实例仅以内积的形式出现
+        先求出 Gram 矩阵，能大大减少计算量
+        """
+        n_samples, n_features = self.X.shape
+        self._alpha = np.zeros(n_samples, dtype=np.float64)
+        self.w = np.zeros(n_features, dtype=np.float64)
+        self.b = 0.0
+
+        self._cal_gram_matrix()
+
+        i = 0
+        while i < n_samples:
+            if self._dual_judge(i) <= 0:
+                self._alpha[i] += self.l_rate
+                self.b += self.l_rate * self.y[i]
+                i = 0
+            else:
+                i += 1
+
+        for i in range(n_samples):
+            self.w += self._alpha[i] * self.X[i] * self.y[i]
+```
+
 对偶形式中训练实例仅以内积的形式出现。为了方便，可以预先将训练集中实例间的内积计算出来并以矩阵的形式存储，这个矩阵就是所谓的 Gram 矩阵（Gram matrix）。
 
 ## 测试
@@ -191,7 +218,7 @@ import numpy as np
 
 接着，构造自定义动画函数 `update`，用来更新每一帧上各个 x 对应的 y 坐标值，参数表示第 i 帧：
 
-```
+```python
         def update(iter):
             (index, w, b) = self._wbs[iter]
             # title
@@ -211,7 +238,7 @@ import numpy as np
 
 然后，构造开始帧函数 `init`：
 
-```
+```python
         def init():
             line.set_ydata(np.zeros(len(x_points)))
             return line,
@@ -264,50 +291,37 @@ pip install slmethod
 使用方法和 `sklearn` 非常相似，以下步骤可省略部分。
 
 1. 获取数据
-1. 数据预处理
-1. 划分测试集与训练集
-1. 估计器拟合
-1. 可视化
-1. 预测测试集
+2. 数据预处理
+3. 划分测试集与训练集
+4. 估计器拟合
+5. 可视化
+6. 预测测试集
 
 ```python
 import numpy as np
-from sklearn.datasets import make_classification
+from sklearn.datasets import make_blobs
 from slmethod.perceptron import Perceptron
 
-separable = False
-while not separable:
-    samples = make_classification(n_samples=100,
-                                  n_features=2,
-                                  n_redundant=0,
-                                  n_informative=1,
-                                  n_clusters_per_class=1,
-                                  flip_y=-1)
-    red = samples[0][samples[1] == 0]
-    blue = samples[0][samples[1] == 1]
-    separable = any([
-        red[:, k].max() < blue[:, k].min()
-        or red[:, k].min() > blue[:, k].max() for k in range(2)
-    ])
+X, y = make_blobs(n_samples=500,
+                  n_features=2,
+                  centers=2,
+                  cluster_std=0.2,
+                  random_state=59)
 
-X = samples[0]
-y = samples[1]
-y = np.array([1 if i == 1 else -1 for i in y])
+y = np.where(y == 1, 1, -1)
 
-minX = np.min(X[:, 0])
-maxX = np.max(X[:, 0])
-x_points = np.array([minX, maxX])
+# 原始感知机
+origin_cls = Perceptron(dual=False)
+origin_cls.fit(X, y)
+origin_cls.show_anim()
 
-origin_clf = Perceptron(dual=False)
-origin_clf.fit(X, y)
-
-print(origin_clf.w)
-print(origin_clf.b)
-
-origin_clf.show2d('slmethod_perceprton.gif')
+# 对偶形式
+dual_cls = Perceptron(dual=True)
+dual_cls.fit(X, y)
+dual_cls.show2d()
 ```
 
-### 生成聚类
+### 生成测试聚类
 
 ```python
 import numpy as np
@@ -324,4 +338,4 @@ plt.ylabel("Second feature")
 plt.show()
 ```
 
-代码：[https://gist.github.com/jiaxianhua/3442e76aefff8202a6e33532e74d0ae5](https://gist.github.com/jiaxianhua/3442e76aefff8202a6e33532e74d0ae5)
+GitHub 源码：[https://github.com/iOSDevLog/slmethod/blob/master/example/perceptron.py](https://github.com/iOSDevLog/slmethod/blob/master/example/perceptron.py)
