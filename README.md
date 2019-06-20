@@ -7,7 +7,7 @@
 
 公众号：iOS开发日志，AI开发日志
 
-![AIDevLog](https://2019.iosdevlog.com/uploads/AIDevLog.jpg)
+![AIDevLog](https://2019.iosdevlog.com/uploads/AIDevLog.png)
 
 <https://github.com/virgili0/Virgilio> 简体中文版发起者和主要翻译人员。
 
