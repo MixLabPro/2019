@@ -18,3 +18,7 @@ date: 2019-03-01 18:06:36
 GitHub: <https://github.com/iOSDevLog/AIDevLog>
 
 网站地址：<https://2019.iosdevlog.com>
+
+如果对您有帮助/你喜欢，欢迎赞助一下我。:]
+
+![Sponsorships](https://2019.iosdevlog.com/uploads/Sponsorships.png)
