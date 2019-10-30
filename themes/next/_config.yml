@@ -334,7 +334,7 @@ codeblock:
 # Wechat Subscriber
 wechat_subscriber:
   enabled: true
-  qcode: /uploads/AIDevLog.jpg
+  qcode: /uploads/AIDevLog.png
   description: 欢迎您扫一扫上面的微信公众号，订阅我的博客！
 
 # Reward
